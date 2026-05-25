@@ -113,6 +113,18 @@ app.get("/", (req, res) => {
     res.send("SwiftPost Authenticated Backend is running...");
 });
 
+// Detailed health check API
+app.get("/api/health", (req, res) => {
+    const dbStatus = mongoose.connection.readyState === 1 ? "CONNECTED" : "DISCONNECTED";
+    res.json({
+        success: true,
+        status: "UP",
+        timestamp: new Date(),
+        uptime: process.uptime(),
+        database: dbStatus
+    });
+});
+
 // 1. Auth: Signup
 app.post("/api/auth/signup", async (req, res) => {
     const { email, password } = req.body;
