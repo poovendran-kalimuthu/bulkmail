@@ -13,7 +13,7 @@ app.use(cors({
 app.use(express.json());
 
 const JWT_SECRET = process.env.JWT_SECRET || "bulkmail_secret_key_123";
-const MONGODB_URI = "mongodb+srv://poovendranhari_db_user:6Hbd5DOwL2s0y3OY@cluster0.tr8qgih.mongodb.net/bulkmail?appName=Cluster0";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://poovendranhari_db_user:6Hbd5DOwL2s0y3OY@cluster0.tr8qgih.mongodb.net/bulkmail?appName=Cluster0";
 
 // Connect to MongoDB Atlas
 mongoose.connect(MONGODB_URI)
