@@ -4,10 +4,10 @@ import * as XLSX from "xlsx";
 import {
   Mail, Users, Sliders, History, FileText, Upload, Download, Send,
   CheckCircle2, XCircle, AlertCircle, Play, Pause, Square, Plus,
-  Trash2, Edit2, Search, FileSpreadsheet, Eye, Settings, Check,
-  Moon, Sun, RefreshCw, Info, ChevronLeft, ChevronRight, Database,
-  ArrowRight, LogOut, UserCheck, Lock, Bell, X, Zap, TrendingUp,
-  Shield, Sparkles
+  Trash2, Edit2, Search, FileSpreadsheet, Eye, Check,
+  RefreshCw, Info, ChevronLeft, ChevronRight, Database,
+  ArrowRight, LogOut, UserCheck, Lock, Bell, X,
+  Shield
 } from "lucide-react";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || "http://localhost:5000";
@@ -921,7 +921,6 @@ export default function BulkMail() {
 
   // ── Dashboard
   const [activeTab, setActiveTab] = useState("composer");
-  const [darkMode] = useState(true);
   const [serverStatus, setServerStatus] = useState("online");
 
   // ── Composer
@@ -1534,6 +1533,7 @@ export default function BulkMail() {
       }
 
       idxRef.current++;
+      // eslint-disable-next-line no-loop-func
       setSending(p => ({ ...p, progress: idxRef.current, success, fail }));
 
       if (idxRef.current < list.length && campaignRef.current)
