@@ -1,4 +1,4 @@
-const express = require("express");
+ const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
@@ -272,7 +272,13 @@ app.post("/api/smtp", authMiddleware, async (req, res) => {
         settings.useCustom = useCustom;
         settings.host = host || "smtp.gmail.com";
         settings.port = parseInt(port) || 587;
-        settings.secure = secure ?? false;
+        let isSecure = secure ?? false;
+        if (settings.port === 465) {
+            isSecure = true;
+        } else if (settings.port === 587 || settings.port === 25) {
+            isSecure = false;
+        }
+        settings.secure = isSecure;
         settings.user = user || "";
         if (pass !== undefined) {
             settings.pass = pass;
@@ -480,6 +486,13 @@ app.post("/sendmail", authMiddleware, async function (req, res) {
     }
 
     const fromAddress = finalFromName ? `"${finalFromName}" <${finalFromEmail}>` : finalFromEmail;
+
+    // Auto-correct secure flag based on common ports to prevent TLS handshake mismatches
+    if (finalPort === 465) {
+        finalSecure = true;
+    } else if (finalPort === 587 || finalPort === 25) {
+        finalSecure = false;
+    }
 
     try {
         const transporter = nodemailer.createTransport({

@@ -2244,7 +2244,14 @@ export default function BulkMail() {
                       <div><label className="sp-label">Port</label><input className="sp-input" type="number" value={smtp.port} onChange={e => setSmtp(p=>({...p,port:+e.target.value}))} placeholder="587" /></div>
                     </div>
                     <label style={{ display: "flex", alignItems: "center", gap: ".6rem", cursor: "pointer", padding: ".65rem .85rem", background: "rgba(245,240,232,.02)", border: "1px solid rgba(245,240,232,.06)", borderRadius: 2 }}>
-                      <input type="checkbox" checked={smtp.secure} onChange={e=>setSmtp(p=>({...p,secure:e.target.checked}))} style={{ accentColor: "var(--rust)" }} />
+                      <input type="checkbox" checked={smtp.secure} onChange={e => {
+                        const isChecked = e.target.checked;
+                        setSmtp(p => ({
+                          ...p,
+                          secure: isChecked,
+                          port: isChecked ? 465 : 587
+                        }));
+                      }} style={{ accentColor: "var(--rust)" }} />
                       <span style={{ fontSize: ".78rem", color: "rgba(245,240,232,.6)" }}>Use SSL/TLS (Port 465)</span>
                     </label>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".75rem" }}>
